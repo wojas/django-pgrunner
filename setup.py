@@ -12,7 +12,7 @@ if os.path.isfile('README.rst'):
 
 setup(name='django-pgrunner',
       version=version,
-      description="Create and autorun and PostgreSQL development database for your Django project",
+      description="Create and autorun a PostgreSQL development database for your Django project",
       long_description=desc,
       classifiers=[
         'Framework :: Django',
