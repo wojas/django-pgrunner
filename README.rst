@@ -107,6 +107,23 @@ back:
 
 Snapshots can be deleted by removing their folder under `pgrunnerdb/`.
 
+Command summary
+===============
+
+.. sourcecode:: sh
+
+    ./manage.py pg_ctl start     - Start server in background
+    ./manage.py pg_ctl stop      - Stop server in background
+    ./manage.py pg_ctl status    - Check if the server is running
+    ./manage.py pg_run           - Run PostgreSQL server in foreground
+    ./manage.py pg_psql          - Start psql with right parameters
+    ./manage.py pg_snapshot foo  - Create a copy of all current database data
+    ./manage.py pg_activate      - List all snapshots
+    ./manage.py pg_activate foo  - Activate snapshot 'foo'
+    ./manage.py pg_dump          - Run pg_dump
+    ./manage.py pg_restore       - Run pg_restore
+
+
 Behind the scenes
 =================
 

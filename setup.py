@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = '0.2.0'
+version = '0.2.1'
 
 # Will be replaced by the contents of README.rst, if available
 desc = """Create and autorun a local PostgreSQL development database for your Django project."""
