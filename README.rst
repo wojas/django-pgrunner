@@ -1,6 +1,3 @@
-Introduction
-============
-
 Django-pgrunner creates a local PostgreSQL_ database for your project and
 automatically starts the database server when needed. It allows you to develop
 against a PostgreSQL server, while matching the convenience of a SQLite3
