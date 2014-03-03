@@ -3,23 +3,30 @@ Introduction
 
 Django-pgrunner creates a local PostgreSQL_ database for your project and
 automatically starts the database server when needed. It allows you to develop
-against a PostgreSQL server with the convenience of SQLite3.
+against a PostgreSQL server, while matching the convenience of a SQLite3
+database file.
 
 The local database is a self-contained database created using the PostgreSQL
 `initdb` tool. A separate PostgreSQL server will be started on a custom port.
 
-Additionally, it support creating and activating database snapshots, so
-you can experiment with your data and be confident that you can restore your
-old data.
+Additionally, it support creating and activating database snapshots. This
+allows you to experiment with your data and be confident that you can restore
+your old data within seconds.
 
 Requirements and installation
 =============================
 
 Make sure you have PostgreSQL_ installed. You can either compile from source,
 or install a binary for your operating system. Check the download_ page for
-details. For MacOS X users, I recommend downloading `Postgres.app`_PostgresApp.
+details. For MacOS X users, I recommend downloading PostgresApp_.
 
-The snapshot functionality requires rsync to be installed.
+The snapshot functionality requires rsync_ to be installed.
+
+The easiest way to install django-pgrunner is using pip:
+
+.. sourcecode:: sh
+
+    pip install django-pgrunner
 
 Microsoft Windows is currently not supported.
 
@@ -28,12 +35,12 @@ Microsoft Windows is currently not supported.
 Usage
 =====
 
-Add the following lines to your `settings.py` or local settings file. Make sure
-that these come after any DATABASES setting:
+First, add **pgrunner** to your INSTALLED_APPS.
+
+Next, add the following lines to your `settings.py` or local settings file.
+Make sure that these come after any DATABASES setting:
 
 .. sourcecode:: python
-
-    ...
 
     # If your PostgreSQL binaries are not in your path, add this setting
     #PGRUNNER_BIN = '/usr/lib/postgresql/9.3/bin'
@@ -106,7 +113,7 @@ Snapshots can be deleted by removing their folder under `pgrunnerdb/`.
 Behind the scenes
 =================
 
-Django-pgrunner creates a subfolder `pgrunnerdb` under your Django project.
+Django-pgrunner creates a `pgrunnerdb/` subfolder under your Django project.
 This folder contains one folder for every snapshot that was created.
 The name of the default instance is `default`. A `current` symbolic link
 keeps track of which snapshot is active.
