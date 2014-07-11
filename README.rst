@@ -10,6 +10,37 @@ Additionally, it support creating and activating database snapshots. This
 allows you to experiment with your data and be confident that you can restore
 your old data within seconds.
 
+Why?
+====
+
+While sqlite3 is great for development, being able to develop against a
+full-featured database like PostgreSQL has a few huge benefits:
+
+ * Your development database will match the database you run in production,
+   eliminating a whole category of bugs, like:
+
+   * South migrations failing in production, while working in dev
+   * Errors in code due to database specific behaviour, like stricter
+     checks on foreign key references.
+   * Proper checks on `unique_together` (sqlite3 does not support these
+     constraints)
+
+ * You can use all the great features offered by PostgreSQL, instead of
+   restricting yourself to a low common denominator. Examples:
+
+   * Database-side constraint and cascading rules
+   * Extra data types, like arrays
+   * Full-text search
+   * Views
+   * Stored procedures
+   * Triggers
+   * PostGIS geo extensions
+   * HStore
+   * JSON features
+
+And with the ease of use this packae offers, there is no good reason not
+to use it!
+
 Requirements and installation
 =============================
 
@@ -19,7 +50,17 @@ details. For MacOS X users, I recommend downloading PostgresApp_.
 
 The snapshot functionality requires rsync_ to be installed.
 
-The easiest way to install django-pgrunner is using pip:
+This package depends on the psycopg2_ package.
+psycopg2_ provides the Python database adapter needed to communicate
+with PostgreSQL. This adapter is partly written in C, and requires a working
+C compiler, PostgreSQL development headers and the `pg_config` binary in your
+PATH. Alternatively, you can install a binary_ distribution.
+
+.. sourcecode:: sh
+
+    pip install psycopg2
+
+The easiest way to install `django-pgrunner` is using pip:
 
 .. sourcecode:: sh
 
@@ -112,6 +153,7 @@ Command summary
 
 .. sourcecode:: sh
 
+    ./manage.py pg_init          - Initialize a local database environment
     ./manage.py pg_ctl start     - Start server in background
     ./manage.py pg_ctl stop      - Stop server in background
     ./manage.py pg_ctl status    - Check if the server is running
@@ -140,4 +182,6 @@ the chances of a conflict between projects are small.
 .. _PostgreSQL: http://www.postgresql.org/
 .. _download: http://www.postgresql.org/download/
 .. _rsync: http://rsync.samba.org/
-.. _PostgresApp : http://postgresapp.com/
+.. _PostgresApp: http://postgresapp.com/
+.. _psycopg2: https://pypi.python.org/pypi/psycopg2
+.. _binary: http://initd.org/psycopg/install/

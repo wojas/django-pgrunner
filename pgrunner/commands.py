@@ -1,3 +1,5 @@
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 import os
 import sys
 from os.path import join
@@ -7,6 +9,8 @@ import subprocess
 import time
 
 from pgrunner import ROOT
+
+DEVNULL = open(os.devnull, 'wb')
 
 # Default database (in the future we will put clones in the ROOT too)
 DEFAULT = join(ROOT, 'default')
@@ -89,7 +93,20 @@ def is_running():
     :return: is running?
     :rtype: bool
     """
-    return os.path.exists(join(CURRENT, 'postmaster.pid'))
+    pid_exists = os.path.exists(join(CURRENT, 'postmaster.pid'))
+    if pid_exists:
+        # Check if really running
+        cmd = ['pg_ctl', '-D', CURRENT, 'status']
+        p = subprocess.Popen(cmd, bufsize=10000, stdout=subprocess.PIPE)
+        output = p.stdout.read()
+        #print('pg_ctl status output:', output, file=sys.stderr)
+        exitcode = p.wait()
+        if exitcode > 0 or not b'pg_ctl: server is running' in output:
+            print("PostgreSQL PID file exists, but not running", file=sys.stderr)
+            return False
+        return True
+    else:
+        return False
 
 
 def ensure_stopped(verbose=False):
@@ -103,10 +120,10 @@ def ensure_stopped(verbose=False):
     running = is_running()
     if running:
         if verbose:
-            print("PostgreSQL server is running, shutting it down")
+            print("PostgreSQL server is running, shutting it down", file=sys.stderr)
         cmd = ['pg_ctl', '-D', CURRENT, '-m', 'fast', 'stop']
         if verbose:
-            print(' '.join(cmd))
+            print(' '.join(cmd), file=sys.stderr)
         subprocess.call(cmd)
         for i in range(20):
             if not is_running():
@@ -128,10 +145,10 @@ def ensure_started(verbose=False):
     running = is_running()
     if not running:
         if verbose:
-            print("PostgreSQL server is not running, starting it")
+            print("PostgreSQL server is not running, starting it", file=sys.stderr)
         cmd = ['pg_ctl', '-D', CURRENT, 'start']
         if verbose:
-            print(' '.join(cmd))
+            print(' '.join(cmd), file=sys.stderr)
         subprocess.call(cmd)
         for i in range(20):
             if is_running():

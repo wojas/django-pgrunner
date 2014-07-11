@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = '0.2.1'
+version = '0.2.2'
 
 # Will be replaced by the contents of README.rst, if available
 desc = """Create and autorun a local PostgreSQL development database for your Django project."""
@@ -34,7 +34,8 @@ setup(name='django-pgrunner',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-        'Django >= 1.4'
+        'Django >= 1.4',
+        #'psycopg2' -- not really required by this package, but required by Django
       ],
       entry_points="""
       """,
