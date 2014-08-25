@@ -31,12 +31,15 @@ PORT_MAX = 16000
 class Command(BaseCommand):
     help = 'Initializes a new local PostgreSQL database'
 
-    def handle(self, *args, **options):
+    def _makeroot(self):
         if os.path.isdir(ROOT):
             raise CommandError('Directory already exists: {0}'.format(ROOT))
 
         print("Creating new PostgreSQL root for development in {0}".format(ROOT))
         os.mkdir(ROOT)
+
+    def handle(self, *args, **options):
+        self._makeroot()
 
         cmd = [bin_path('initdb'), DEFAULT]
         print(' '.join(cmd))

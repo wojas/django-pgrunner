@@ -48,6 +48,10 @@ def activate_clone(snapshot='default'):
     os.symlink(snapshot, current_path)
 
 
+def current_clone():
+    return os.readlink(CURRENT).rstrip('/').split('/')[-1]
+
+
 GET_PORT_RE = re.compile('(^|\n) *port *= *([0-9]+)')
 SET_PORT_RE = re.compile('(^|\n)#? *port *= *([0-9]+)')
 
